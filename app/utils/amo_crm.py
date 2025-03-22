@@ -31,6 +31,12 @@ def get_field_id_by_name(field_name):
     else:
         print(f"❌ Ошибка получения полей: {response.status_code} - {response.text}")
     return None
+print("🧪 Проверка контактов:")
+print(f"Имя: {name}")
+print(f"Email: {email}")
+print(f"Телефон: {phone}")
+print(f"Тема: {topic}")
+print(f"Файл: {file_path}")
 
 def create_lead(name, phone, email, message, file_path=None):
     tokens = load_tokens()
