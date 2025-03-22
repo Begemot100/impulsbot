@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>IMPULS Chat</title>
+    <style>
+        body { font-family: Arial; background: #f2f2f2; margin: 0; }
+        .chat { max-width: 500px; margin: 50px auto; background: #fff; padding: 20px; border-radius: 8px; }
+        .messages { height: 300px; overflow-y: auto; margin-bottom: 10px; }
+        .msg { margin: 10px 0; }
+        .user { text-align: right; color: green; }
+        .bot { text-align: left; color: black; }
+        input[type=text] { width: 100%; padding: 10px; }
+    </style>
+</head>
+<body>
+<div class="chat">
+    <div class="messages" id="chat"></div>
+    <input type="text" id="input" placeholder="Напишите сообщение..." onkeypress="if(event.keyCode==13) send()">
+</div>
+<script>
+function send() {
+    let msg = document.getElementById("input").value;
+    if (!msg) return;
+    let chat = document.getElementById("chat");
+    chat.innerHTML += `<div class='msg user'>${msg}</div>`;
+    document.getElementById("input").value = "";
+    fetch("/chat-message", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: msg})
+    }).then(res => res.json()).then(data => {
+        chat.innerHTML += `<div class='msg bot'>${data.response}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+    });
+}
+</script>
+</body>
+</html>
