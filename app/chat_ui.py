@@ -150,9 +150,11 @@ function sendMessageToServer(message) {
     })
     .then(res => res.json())
     .then(data => {
+        const length = data.response.length;
+        const delay = Math.min(Math.ceil(length / 100) * 1000, 5000); // максимум 5 секунд
         setTimeout(() => {
             appendMessage('assistant', data.response);
-        }, 600); // Имитируем задержку ответа
+        }, delay);
     })
     .catch(err => appendMessage('assistant', '⚠️ Ошибка. Попробуйте еще раз.'));
 }
